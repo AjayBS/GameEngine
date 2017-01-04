@@ -1,0 +1,319 @@
+#include "HeapManager.h"
+#include<stdio.h>
+#include<stdlib.h>
+
+
+HeapManager::HeapManager()
+{
+
+}
+
+
+HeapManager::~HeapManager()
+{
+}
+
+namespace HeapManagerProxy {
+	HeapManager* CreateHeapManager(void *pHeapMemory, const size_t sizeHeap, const myint_t numDescriptors) {
+		HeapManager *heapManager = new HeapManager();
+
+		heapManager->pFreeMemoryList = pHeapMemory;
+		heapManager->heapSize = sizeHeap;
+		heapManager->numDescriptors = numDescriptors;
+		heapManager->descriptorStorage = numDescriptors * sizeof(BlockDescriptor);
+
+
+		heapManager->pFreeDescriptorList = reinterpret_cast<BlockDescriptor *>((reinterpret_cast<uintptr_t>(heapManager->pFreeMemoryList) + sizeHeap) - heapManager->descriptorStorage);
+		heapManager->pFreeDescriptorList->m_pPrevious = nullptr;
+		for (myint_t i = 0; i < numDescriptors-1; i++) {
+			heapManager->pFreeDescriptorList->m_pMemoryPointer = reinterpret_cast<BlockDescriptor *>(heapManager->pFreeMemoryList);
+			heapManager->pFreeDescriptorList->m_sizeBlock = sizeof(BlockDescriptor);
+			if (i != numDescriptors-1 || (heapManager->pFreeDescriptorList == heapManager->pFreeMemoryList + sizeHeap)) {
+				heapManager->pFreeDescriptorList->m_pNext = heapManager->pFreeDescriptorList + (heapManager->pFreeDescriptorList->m_sizeBlock);
+				heapManager->pFreeDescriptorList->m_pNext->m_pPrevious = heapManager->pFreeDescriptorList;
+				heapManager->pFreeDescriptorList = heapManager->pFreeDescriptorList->m_pNext;
+			}
+			else
+				heapManager->pFreeDescriptorList->m_pNext = nullptr;
+		}
+		heapManager->pFreeDescriptorList->m_pMemoryPointer = static_cast<BlockDescriptor *>(heapManager->pFreeMemoryList);
+		heapManager->pFreeDescriptorList->m_sizeBlock = sizeof(BlockDescriptor);
+
+
+		//size_t filledSize = sizeHeap - requiredStorage; 
+		////int occupiedMemory = 
+		//while (true) {
+		//	filledSize += sizeof(BlockDescriptor);
+		//	if(size_t(pFreeDescriptorList + sizeof(BlockDescriptor)) <= size_t((char *)pFreeMemoryList + sizeHeap )) {
+		//		pFreeDescriptorList->m_pNext = (pFreeDescriptorList + sizeof(BlockDescriptor));
+		//		pFreeDescriptorList->m_pNext->m_pPrevious = pFreeDescriptorList;
+		//		pFreeDescriptorList->m_pNext->m_sizeBlock = sizeof(BlockDescriptor);	
+		//		pFreeDescriptorList->m_pNext->m_pNext = nullptr;
+		//		pFreeDescriptorList->m_pNext->m_pMemoryPointer = (BlockDescriptor *)pFreeMemoryList;
+		//	}
+		//	else {	
+		//		pFreeDescriptorList = pFreeDescriptorList->m_pPrevious;
+		//		//pFreeDescriptorList->m_pNext = nullptr;
+		//		break;
+		//	}
+		//	pFreeDescriptorList = pFreeDescriptorList->m_pNext;
+		//}
+
+
+		heapManager->pOutstandingAllocationList = nullptr;
+
+		return heapManager;
+
+	}
+
+	void* alloc(HeapManager *i_pManager, size_t i_size, const myint_t alignment) {
+
+		//Get the size requested by the user including guardbands.
+		size_t iRequestedBytes = i_size + alignment;
+		//size_t availableMemory = TOTAL_SIZE - (NO_OF_DESCRIPTORS * sizeof(BlockDescriptor)) - ((char *)pFreeMemoryList - (char *)pFreeDescriptorList->m_pMemoryPointer)-iRequestedBytes;
+		size_t availableMemory = GetAvailableSize(i_pManager);
+
+		if (i_size == 0) {
+			assert(true);
+		}
+
+		if (iRequestedBytes > (size_t)availableMemory) {
+			assert(true);
+		}
+
+		int allocatedListCount = 0;
+		BlockDescriptor *tempAllocator = i_pManager->pOutstandingAllocationList;
+		do {
+			if (tempAllocator == nullptr) {
+				break;
+			}
+			allocatedListCount++;
+			tempAllocator = tempAllocator->m_pNext;
+		} while (tempAllocator != nullptr);
+
+		if (allocatedListCount >= (int)i_pManager->numDescriptors) {
+			assert(true);
+		}
+
+		// Garbage Collector
+		while (iRequestedBytes > i_pManager->pFreeDescriptorList->m_sizeBlock) {
+			GarbageCollect(i_pManager);
+		}
+
+		if (i_pManager->pOutstandingAllocationList != nullptr) {
+			if (i_pManager->pFreeDescriptorList->m_pPrevious != nullptr) {
+				BlockDescriptor *tempDescriptor = i_pManager->pOutstandingAllocationList;
+				i_pManager->pFreeDescriptorList = i_pManager->pFreeDescriptorList->m_pPrevious;
+				tempDescriptor->m_pNext = i_pManager->pFreeDescriptorList->m_pNext;
+				tempDescriptor->m_pNext->m_pPrevious = i_pManager->pOutstandingAllocationList;
+				tempDescriptor->m_pNext->m_pNext = nullptr;
+				tempDescriptor->m_pNext->m_sizeBlock = iRequestedBytes;
+				//pOutstandingAllocationList->m_pNext = tempDescriptor;
+				i_pManager->pFreeDescriptorList->m_pNext = nullptr;
+				i_pManager->pOutstandingAllocationList = i_pManager->pOutstandingAllocationList->m_pNext;
+			}
+			else {
+				BlockDescriptor *tempDescriptor = i_pManager->pOutstandingAllocationList;
+
+			}
+		}
+		else {
+			BlockDescriptor *tempDescriptor = i_pManager->pOutstandingAllocationList;
+			i_pManager->pFreeDescriptorList = i_pManager->pFreeDescriptorList->m_pPrevious;
+			i_pManager->pOutstandingAllocationList = i_pManager->pFreeDescriptorList->m_pNext;
+			i_pManager->pOutstandingAllocationList->m_sizeBlock = iRequestedBytes;
+			i_pManager->pOutstandingAllocationList->m_pNext = nullptr;
+			i_pManager->pOutstandingAllocationList->m_pPrevious = nullptr;
+			i_pManager->pFreeDescriptorList->m_pNext = nullptr;
+		}
+
+		//pFreeMemoryList =(void *)( pFreeMemoryList + pFreeDescriptorList->m_sizeBlock);
+		BlockDescriptor *tempDescriptor = i_pManager->pFreeDescriptorList;
+		// Update the memory pointer to point to the next remaining memory
+		i_pManager->pFreeDescriptorList->m_pMemoryPointer = i_pManager->pOutstandingAllocationList->m_pMemoryPointer + i_pManager->pOutstandingAllocationList->m_sizeBlock;
+		// Update the size to the remaining memory and assign to the next free descriptor		
+		i_pManager->pFreeDescriptorList->m_sizeBlock = GetAvailableSize(i_pManager);
+		// The pointer of the previous free descriptor one is updated.
+		//pFreeDescriptorList->m_pNext = nullptr;
+		return i_pManager->pOutstandingAllocationList->m_pMemoryPointer;
+	}
+
+	void free(HeapManager *i_pManager, void* deallocation_pointer) {
+
+		BlockDescriptor *tempMemoryAllocator = i_pManager->pOutstandingAllocationList;
+		while (true) {
+			// Check if the outstanding list is null, if yes return false.
+			if (tempMemoryAllocator == nullptr) {
+				break;
+			}
+			// Iterate through the outstanding list
+			else if (tempMemoryAllocator->m_pMemoryPointer == deallocation_pointer) {
+				BlockDescriptor *swapPreviousFreeList = i_pManager->pFreeDescriptorList->m_pPrevious;
+				size_t availableMemory = GetAvailableSize(i_pManager);
+				if (tempMemoryAllocator->m_pNext == nullptr && tempMemoryAllocator->m_pPrevious == nullptr) {
+					// Get the memory of 
+					//if(tempMemoryAllocator)
+					//tempMemoryAllocator->m_pPrevious = 
+					AddFreedBlockToTheFreeDescriptorList(i_pManager, tempMemoryAllocator);
+					i_pManager->pOutstandingAllocationList = nullptr;
+					//tempMemoryAllocator->m_pPrevious->m_pNext = nullptr;
+				}
+				// If it is the first element in the list. make previous of second one null
+				else if (tempMemoryAllocator->m_pPrevious == nullptr && tempMemoryAllocator->m_pNext != nullptr) {
+					tempMemoryAllocator->m_pNext->m_pPrevious = nullptr;
+					i_pManager->pOutstandingAllocationList = tempMemoryAllocator->m_pNext;
+					AddFreedBlockToTheFreeDescriptorList(i_pManager, tempMemoryAllocator);
+					//pOutstandingAllocationList->m_pNext = nullptr;
+				}
+				// If it is the last element in linked list
+				else if (tempMemoryAllocator->m_pPrevious != nullptr && tempMemoryAllocator->m_pNext == nullptr) {
+					tempMemoryAllocator->m_pPrevious->m_pNext = nullptr;
+					i_pManager->pOutstandingAllocationList = tempMemoryAllocator->m_pPrevious;
+					AddFreedBlockToTheFreeDescriptorList(i_pManager, tempMemoryAllocator);
+					//tempMemoryAllocator->m_pNext->m_pPrevious = tempMemoryAllocator->m_pPrevious;
+				}
+				// If it is the middle element
+				else {
+					tempMemoryAllocator->m_pPrevious->m_pNext = tempMemoryAllocator->m_pNext;
+					tempMemoryAllocator->m_pNext->m_pPrevious = tempMemoryAllocator->m_pPrevious;
+					AddFreedBlockToTheFreeDescriptorList(i_pManager, tempMemoryAllocator);
+				}
+				break;
+			}
+			tempMemoryAllocator = tempMemoryAllocator->m_pPrevious;
+
+		}
+		i_pManager->allocatedCount -= 1;
+		//return;
+	}
+
+	void AddFreedBlockToTheFreeDescriptorList(HeapManager *i_pManager, BlockDescriptor* freedBlock) {
+		// If it is the first element to be freed and freed element lies in the first of the descriptor list
+		if (i_pManager->pFreeDescriptorList->m_pNext == nullptr && freedBlock > i_pManager->pFreeDescriptorList) {
+			freedBlock->m_pNext = nullptr;
+			//pFreeDescriptorList->m_pNext = freedBlock;
+			freedBlock->m_pPrevious = i_pManager->pFreeDescriptorList;
+			freedBlock->m_pPrevious->m_pNext = freedBlock;
+			i_pManager->pFreeDescriptorList = freedBlock;
+			//freedBlock->m_sizeBlock = sizeof(BlockDescriptor);
+			//freedBlock->m_pMemoryPointer = pFreeDescriptorList->m_pMemoryPointer;
+		}
+		else if (i_pManager->pFreeDescriptorList->m_pNext == nullptr && freedBlock < i_pManager->pFreeDescriptorList) {
+			BlockDescriptor *tempBlock = i_pManager->pFreeDescriptorList;
+			//freedBlock->m_pNext = tempBlock;
+			//tempBlock->m_pPrevious = freedBlock;
+			while (1) {
+				if (freedBlock < tempBlock) {
+					freedBlock->m_pNext = tempBlock;
+				}
+				if (freedBlock > tempBlock) {
+					freedBlock->m_pPrevious = tempBlock;
+					tempBlock->m_pNext->m_pPrevious = freedBlock;
+					tempBlock->m_pNext = freedBlock;
+					break;
+				}
+				tempBlock = tempBlock->m_pPrevious;
+			}
+			//pFreeDescriptorList->m_pPrevious = freedBlock;
+
+		}
+		else if (i_pManager->pFreeDescriptorList->m_pPrevious == nullptr) {
+
+		}
+		//pFreeDescriptorList->m_pPrevious = freedBlock;
+		ResetFreeDescriptor(i_pManager);
+	}
+
+	void ResetFreeDescriptor(HeapManager *i_pManager)
+	{
+		while (i_pManager->pFreeDescriptorList->m_pNext != nullptr) {
+			i_pManager->pFreeDescriptorList = i_pManager->pFreeDescriptorList->m_pNext;
+		}
+	}
+
+	size_t GetAvailableSize(HeapManager *i_pManager) {
+
+		BlockDescriptor *tempFreeDescriptorList = i_pManager->pOutstandingAllocationList;
+		//size_t requiredStorage = GetNumberOfDescriptors() * sizeof(BlockDescriptor);
+
+		size_t occupiedSize = 0;
+
+		while (tempFreeDescriptorList != nullptr) {
+			occupiedSize += tempFreeDescriptorList->m_sizeBlock;
+			tempFreeDescriptorList = tempFreeDescriptorList->m_pPrevious;
+		}
+
+		return (size_t)(i_pManager->heapSize - i_pManager->descriptorStorage - occupiedSize);
+
+	}
+
+	myint_t ShowFreeBlocks(HeapManager *i_pManager) {
+
+		myint_t availableDescriptors = GetNumberOfDescriptors(i_pManager);
+		return availableDescriptors;
+		//printf_s("%d", availableDescriptors);
+	}
+
+	myint_t ShowAllocatedBlocks(HeapManager *i_pManager) {
+		BlockDescriptor *tempAllocator = i_pManager->pOutstandingAllocationList;
+		myint_t allocatedListCount = 0;
+
+		do {
+			if (tempAllocator == nullptr) {
+				break;
+			}
+			allocatedListCount++;
+			tempAllocator = tempAllocator->m_pPrevious;
+		} while (tempAllocator != nullptr);
+		return allocatedListCount;
+		//printf_s("%d", availableDescriptors);
+	}
+
+	myint_t GetNumberOfDescriptors(HeapManager *i_pManager)
+	{
+		BlockDescriptor *tempFreeDescriptorList = i_pManager->pFreeDescriptorList;
+		myint_t numOfDescriptors = 0;
+		while (tempFreeDescriptorList != nullptr)
+		{
+			tempFreeDescriptorList = tempFreeDescriptorList->m_pPrevious;
+			numOfDescriptors++;
+		}
+		return numOfDescriptors;
+	}
+
+	void GarbageCollect(HeapManager *i_pManager) {
+		//ResetFreeDescriptor();
+
+		BlockDescriptor * pPreviousBlock = i_pManager->pFreeDescriptorList->m_pPrevious;
+		// if this block abuts the following block combine them
+		if ((i_pManager->pFreeDescriptorList->m_pMemoryPointer + i_pManager->pFreeDescriptorList->m_sizeBlock) == pPreviousBlock->m_pMemoryPointer) {
+			Combine(i_pManager->pFreeDescriptorList, pPreviousBlock);
+		}
+		//ResetFreeDescriptor();
+		/*BlockDescriptor * pPreviousBlock = pFreeDescriptorList->m_pPrevious;
+		if (pPreviousBlock != NULL) {
+		pFreeDescriptorList->m_pPrevious->m_sizeBlock = pFreeDescriptorList->m_sizeBlock + pPreviousBlock->m_sizeBlock;
+		pFreeDescriptorList = pPreviousBlock;
+		pFreeDescriptorList->m_pNext = nullptr;
+		}
+		else {
+		assert(true);
+		}*/
+	}
+
+	void Combine(BlockDescriptor * presentBlock, BlockDescriptor * previousBlock)
+	{
+		presentBlock->m_sizeBlock = presentBlock->m_sizeBlock + previousBlock->m_sizeBlock;
+	}
+	
+}
+
+
+void * operator new(size_t i_size, HeapManager * pHeap, unsigned int i_alignment)
+{
+	using namespace HeapManagerProxy;
+	/*assert(pHeap != NULL);
+	assert(IsPowerOfTwo(i_alignment));
+*/
+	return alloc(pHeap, i_size, i_alignment);
+}
