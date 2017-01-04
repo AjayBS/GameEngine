@@ -1,9 +1,0 @@
-﻿  GameManager.cpp
-  Main.cpp
-  MonsterController.cpp
-  PlayerController.cpp
-  Generating code
-  All 86 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  Finished generating code
-  MonsterChase.vcxproj -> C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Release\MonsterChase.exe
-  MonsterChase.vcxproj -> C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Release\MonsterChase.pdb (Full PDB)
