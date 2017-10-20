@@ -1,5 +1,6 @@
 #pragma once
 #include "Macros.h"
+#include "Debug.h"
 //void ConsolePrint(const char * i_fmt, ...) {
 //
 //}
@@ -30,5 +31,6 @@ inline void GetTimeOfExecution(const char* time, ...) {
 	sprintf_s(message, "The time is %s\n", time);
 	PrintToWindowsDebug(message);
 }
+
 
 

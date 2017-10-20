@@ -1,0 +1,17 @@
+﻿  Generating code
+  78 of 1729 functions ( 4.5%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    20 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+GLib_x64-Profile.lib(Initialization.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x64-Profile.lib(Initialization.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Profile\GLib.pdb'; linking object as if no debug info
+GLib_x64-Profile.lib(Window.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x64-Profile.lib(Window.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Profile\GLib.pdb'; linking object as if no debug info
+GLib_x64-Profile.lib(SpriteRender.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x64-Profile.lib(SpriteRender.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Profile\GLib.pdb'; linking object as if no debug info
+GLib_x64-Profile.lib(Input.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x64-Profile.lib(Input.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Profile\GLib.pdb'; linking object as if no debug info
+GLib_x64-Profile.lib(Device.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x64-Profile.lib(Device.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Profile\GLib.pdb'; linking object as if no debug info
+GLib_x64-Profile.lib(DrawResourcesBuffer.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x64-Profile.lib(DrawResourcesBuffer.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Profile\GLib.pdb'; linking object as if no debug info
+GLib_x64-Profile.lib(Texture.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x64-Profile.lib(Texture.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Profile\GLib.pdb'; linking object as if no debug info
+GLib_x64-Profile.lib(DDSTextureLoader.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x64-Profile.lib(DDSTextureLoader.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Profile\GLib.pdb'; linking object as if no debug info
+GLib_x64-Profile.lib(Render.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x64-Profile.lib(Render.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Profile\GLib.pdb'; linking object as if no debug info
+GLib_x64-Profile.lib(Service.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x64-Profile.lib(Service.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Profile\GLib.pdb'; linking object as if no debug info
+  MonsterChase.vcxproj -> C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Profile\GraphicsApplication.exe
+  MonsterChase.vcxproj -> C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\x64\Profile\GraphicsApplication.pdb (Full PDB)

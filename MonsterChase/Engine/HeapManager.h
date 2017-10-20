@@ -5,8 +5,13 @@
 #include "EngineTypes.h"
 #include "Debug.h"
 #include "Macros.h"
+#include "FixedSizeAllocatorProxy.h"
+#include "Mutex.h"
 
 class HeapManager;
+class FixedSizeAllocator;
+
+using namespace FixedSizeAllocatorProxy;
 
 struct BlockDescriptor
 {
@@ -14,6 +19,12 @@ struct BlockDescriptor
 	size_t m_sizeBlock;
 	BlockDescriptor *m_pNext;
 	BlockDescriptor *m_pPrevious;
+};
+
+struct FSAInitData
+{
+	size_t	sizeBlock;
+	int	numBlocks;
 };
 
 class HeapManager
@@ -25,19 +36,11 @@ public:
 	myint_t numDescriptors;
 	size_t allocatedCount;
 	size_t descriptorStorage;	
+	FSAInitData FSASizes[3];
+	Engine::Mutex mutex;
 	HeapManager();
 	~HeapManager();
-	/*void* alloc(size_t i_size, const myint_t alignment);*/
-	/*void free(void* deallocation_pointer);*/
-	//void CreateHeapManager(void *pHeapMemory, const size_t sizeHeap, const myint_t numDescriptors);
-	/*void AddFreedBlockToTheFreeDescriptorList(BlockDescriptor* freedBlock);*/
-	//size_t GetAvailableSize();
-	//myint_t ShowFreeBlocks();
-	//myint_t ShowAllocatedBlocks();
-	//myint_t GetNumberOfDescriptors();
-	//void GarbageCollect();
-	///*void ResetFreeDescriptor();*/
-	//void Combine(BlockDescriptor *presentBlock, BlockDescriptor *previousBlock);
+	
 	inline size_t GetAvailableSize(const HeapManager * i_pManager) const{
 
 		BlockDescriptor *tempFreeDescriptorList = i_pManager->pOutstandingAllocationList;
@@ -93,7 +96,7 @@ public:
 
 namespace HeapManagerProxy
 {
-	static HeapManager *heapManagerRef;
+	static HeapManager *heapManagerRef;	
 
 	HeapManager* CreateHeapManager(void *pHeapMemory, size_t sizeHeap, const myint_t numDescriptors);
 	void* alloc(HeapManager * i_pManager, size_t i_size, const myint_t alignment);
@@ -105,9 +108,7 @@ namespace HeapManagerProxy
 	void Combine(BlockDescriptor *presentBlock, BlockDescriptor *previousBlock);
 	HeapManager * GetHeapManager();
 	void SetHeapManager(HeapManager *heap);
-	
-	
-
+//	FixedSizeAllocator * FindFixedSizeAllocator(size_t i_size);
 }
 
 enum NewAlignment

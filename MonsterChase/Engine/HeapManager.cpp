@@ -1,4 +1,10 @@
 #include "HeapManager.h"
+#include "FixedSizeAllocator.h"
+#ifdef _GUARDBAND
+const uint8_t guardbandValues[] = { 0xde, 0xad, 0xbe, 0xef }; // 0xdeadbeef
+const size_t guardbandBytes = sizeof(guardbandValues);
+#endif // __GUARDBAND
+
 
 HeapManager::HeapManager()
 {
@@ -12,7 +18,6 @@ HeapManager::~HeapManager()
 
 namespace HeapManagerProxy {
 	HeapManager* CreateHeapManager(void *pHeapMemory, size_t sizeHeap, const myint_t numDescriptors) {
-		
 		HeapManager * heapManager = reinterpret_cast<HeapManager *>(pHeapMemory);
 		pHeapMemory=reinterpret_cast<uint8_t *>(pHeapMemory) + sizeof(HeapManager);
 		sizeHeap -= sizeof(HeapManager);
@@ -28,6 +33,7 @@ namespace HeapManagerProxy {
 		heapManager->pFreeDescriptorList->m_pNext = heapManager->pFreeDescriptorList + sizeof(BlockDescriptor);
 		heapManager->pFreeDescriptorList->m_pPrevious = nullptr;
 		heapManager->pFreeDescriptorList->m_sizeBlock = DEFAULT_SIZE_BLOCK;
+		heapManager->mutex.Assign();
 		size_t currentBlockDescriptor = VALUE_ONE;
 		while (true)
 		{
@@ -48,12 +54,18 @@ namespace HeapManagerProxy {
 		heapManager->pFreeDescriptorList->m_pMemoryPointer = heapManager->pFreeMemoryList;
 		heapManager->pFreeDescriptorList->m_sizeBlock = sizeHeap - (heapManager->numDescriptors * sizeof(BlockDescriptor));
 		heapManager->pOutstandingAllocationList = nullptr;
+
+		// Create fixed size allocator from the block allocator
+		CreateHeaps(heapManager);
+
 		return heapManager;
 
 	}
 
 	void* alloc(HeapManager *i_pManager, size_t i_size, const myint_t alignment) {
+		i_pManager->mutex.Acquire();
 
+		//bool check = i_pManager->mutex.TryAcquire();
 		//Get the size requested by the user including guardbands.
 		size_t iRequestedBytes = i_size + alignment;
 		//size_t availableMemory = TOTAL_SIZE - (NO_OF_DESCRIPTORS * sizeof(BlockDescriptor)) - ((char *)pFreeMemoryList - (char *)pFreeDescriptorList->m_pMemoryPointer)-iRequestedBytes;
@@ -117,7 +129,6 @@ namespace HeapManagerProxy {
 			i_pManager->pOutstandingAllocationList->m_pPrevious = nullptr;
 			i_pManager->pFreeDescriptorList->m_pNext = nullptr;
 		}
-
 		//pFreeMemoryList =(void *)( pFreeMemoryList + pFreeDescriptorList->m_sizeBlock);
 		BlockDescriptor *tempDescriptor = i_pManager->pFreeDescriptorList;
 		// Update the memory pointer to point to the next remaining memory
@@ -126,11 +137,39 @@ namespace HeapManagerProxy {
 		i_pManager->pFreeDescriptorList->m_sizeBlock = i_pManager->GetAvailableSize(i_pManager);
 		// The pointer of the previous free descriptor one is updated.
 		//pFreeDescriptorList->m_pNext = nullptr;
-		return i_pManager->pOutstandingAllocationList->m_pMemoryPointer;
+		void * tempPointer = i_pManager->pOutstandingAllocationList->m_pMemoryPointer;
+
+		// Guardbanding
+		//#ifdef _GUARDBAND
+		//// write the start of block guardband
+		//uint8_t * pStartGuardband = (uint8_t *)i_pManager->pOutstandingAllocationList->m_pMemoryPointer;
+		//uint8_t * pEndGuardband = reinterpret_cast<uint8_t *>(reinterpret_cast<uintptr_t>(i_pManager->pOutstandingAllocationList->m_pMemoryPointer) + i_pManager->pOutstandingAllocationList->m_sizeBlock - guardbandBytes);
+		//pStartGuardband[0] = guardbandValues[0];
+		//pStartGuardband[1] = guardbandValues[1];
+		//pStartGuardband[2] = guardbandValues[2];
+		//pStartGuardband[3] = guardbandValues[3];
+
+		//// write the end of block guardband
+		////uint8_t * pEndGuardband = pUserMemory + i_size;
+		//pEndGuardband[0] = guardbandValues[0];
+		//pEndGuardband[1] = guardbandValues[1];
+		//pEndGuardband[2] = guardbandValues[2];
+		//pEndGuardband[3] = guardbandValues[3];
+		//tempPointer = reinterpret_cast<void *>(reinterpret_cast<uintptr_t>(i_pManager->pOutstandingAllocationList->m_pMemoryPointer) + guardbandBytes);
+
+		//#endif // __GUARDBAND
+
+		i_pManager->mutex.Release();
+
+		return tempPointer;
 	}
 
 	void free(HeapManager *i_pManager, void* deallocation_pointer) {
+	#ifdef _GUARDBAND
+		deallocation_pointer = reinterpret_cast<void *>(reinterpret_cast<uintptr_t>(deallocation_pointer) - guardbandBytes);
+	#endif	
 		BlockDescriptor *tempMemoryAllocator = i_pManager->pOutstandingAllocationList;
+		i_pManager->mutex.Acquire();
 		while (true) {
 			// Check if the outstanding list is null, if yes return false.
 			if (tempMemoryAllocator == nullptr) {
@@ -176,6 +215,7 @@ namespace HeapManagerProxy {
 		while(i_pManager->pOutstandingAllocationList != nullptr && i_pManager->pOutstandingAllocationList->m_pNext != nullptr)
 		i_pManager->pOutstandingAllocationList = i_pManager->pOutstandingAllocationList->m_pNext;
 		i_pManager->allocatedCount -= VALUE_ONE;
+		i_pManager->mutex.Release();
 		//return;
 	}
 
@@ -265,9 +305,16 @@ namespace HeapManagerProxy {
 	
 	}
 	
-
 	
 
+	//FixedSizeAllocator * FindFixedSizeAllocator(size_t i_size)
+	//{
+	//	/*for (int i = 0; i < 3; i++) {
+	//		if (i_size == fixedManagerRef[i]->GetBitArray()->GetNumberOfBits())
+	//			return fixedManagerRef[i];
+	//	}*/
+	//	return nullptr;
+	//}
 
 	HeapManager * GetHeapManager()
 	{
@@ -278,8 +325,11 @@ namespace HeapManagerProxy {
 	{
 		heapManagerRef = heap;
 	}
+
 	
+		
 }
+
 using namespace HeapManagerProxy;
 
 //void * operator new(size_t i_size, HeapManager * pHeap)
@@ -302,27 +352,50 @@ using namespace HeapManagerProxy;
 void * operator new(size_t i_size)
 {
 	//DEBUG_PRINT("Calling new( size_t ) with ( %Iu ).\n", i_size);
+	void * pReturn = nullptr;
 
-	return alloc(heapManagerRef, i_size, DEFAULT_ALIGNMENT);
+	//FixedSizeAllocator * pFSA = FindFixedSizeAllocator(i_size);
+
+	//if (pFSA)
+	//	pReturn = pFSA->alloc();
+
+	// if no FSA available or there was one and it is full
+	//if (pReturn == nullptr)
+		pReturn = alloc(heapManagerRef, i_size, DEFAULT_ALIGNMENT);
+
+	return pReturn;
+
+
+	//return alloc(heapManagerRef, i_size, DEFAULT_ALIGNMENT);
 }
-
+//
 void operator delete(void * i_ptr)
 {
 	//DEBUG_PRINT("Calling delete( void * ) with ( %" PRIxPTR " ).\n", i_ptr);
-	if (i_ptr)
+	if (heapManagerRef == nullptr) {
+		free(i_ptr);
+	}
+	else {
+	//FixedSizeAllocator * pFSA = FindFixedSizeAllocator(i_ptr);
+	//if (pFSA == nullptr && i_ptr)
 		free(heapManagerRef, i_ptr);
+	//else if (pFSA && i_ptr) {
+	//	pFSA->free(i_ptr);
+	//}
+	}
 }
-
+//
 void * operator new(size_t i_size, HeapManager * i_pHeap)
 {
 	//DEBUG_PRINT("Calling new( size_t, HeapManager * ) with ( %Iu, %" PRIxPTR ").\n", i_size, i_pHeap);
 
 	/*if (i_pHeap == NULL)
 		i_pHeap = getDefaultHeap();*/
+	void * pReturn = nullptr;
 
 	assert(i_pHeap);
-
-	return alloc(i_pHeap,i_size, DEFAULT_ALIGNMENT);
+	pReturn = alloc(heapManagerRef, i_size, DEFAULT_ALIGNMENT);
+	return pReturn;
 }
 
 void operator delete(void * i_ptr, HeapManager * i_pHeap)
@@ -330,6 +403,7 @@ void operator delete(void * i_ptr, HeapManager * i_pHeap)
 	assert(i_pHeap);
 	if (i_ptr)
 		free(heapManagerRef, i_ptr);
+	//i_pHeap->free(i_ptr);
 }
 
 void * operator new[](size_t i_size)
@@ -340,39 +414,46 @@ void * operator new[](size_t i_size)
 	i_pHeap = getDefaultHeap();*/
 
 	//assert(i_pHeap);
+	/*void * pReturn = nullptr;
 
-	return alloc(heapManagerRef, i_size, DEFAULT_ALIGNMENT);
+	assert(i_pHeap);
+	pReturn = alloc(heapManagerRef, i_size, DEFAULT_ALIGNMENT);
+	return pReturn;*/
+	void *p = malloc(i_size);
+	return p;
 }
 
 void operator delete[](void * i_ptr)
 {
+	/*if (i_ptr)
+		free(heapManagerRef, i_ptr);*/
 	if (i_ptr)
-		free(heapManagerRef, i_ptr);
+		free(i_ptr);
 }
 
 void * operator new(size_t i_size, NewAlignment i_align)
 {	
-	switch (i_align)
-	{
-	case NEW_ALIGN_16:
-	case NEW_ALIGN_32:
-		return alloc(heapManagerRef, i_size, i_align);
-	default:
-		return alloc(heapManagerRef, i_size, DEFAULT_ALIGNMENT);
-	}
+	/*void * pReturn = nullptr;
+
+	assert(i_pHeap);
+	pReturn = alloc(heapManagerRef, i_size, DEFAULT_ALIGNMENT);
+	return pReturn;*/
+	void *p = malloc(i_size);
+	return p;
 }
 
 void operator delete(void * i_ptr, NewAlignment i_align)
 {
 	if (i_ptr)
-		free(heapManagerRef, i_ptr);
+		free(i_ptr);
 }
 
 void * operator new(size_t i_size, const char * i_pFile, unsigned int i_Line) {
-	return alloc(heapManagerRef, i_size, DEFAULT_ALIGNMENT);
+	void *p = malloc(i_size);
+	return p;
 }
 
 void operator delete(void * i_ptr, const char * i_pFile, unsigned int i_Line) {
 	if (i_ptr)
-		free(heapManagerRef, i_ptr);
+		free( i_ptr);
 }

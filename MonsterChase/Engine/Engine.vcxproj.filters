@@ -25,6 +25,96 @@
     <Filter Include="Header Files\GameObject">
       <UniqueIdentifier>{c0d3c4e2-0212-4ca1-b120-478ba5cbf69e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\FixedSizeAllocator">
+      <UniqueIdentifier>{8b7b51ac-1c54-4e68-8e60-b877117b6e45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FixedSizeAllocator">
+      <UniqueIdentifier>{28fb2b54-2ebb-4134-9cf0-e190564e6092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TIming">
+      <UniqueIdentifier>{86a0ab58-e6e1-4645-ab91-79b6e3c9d2fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TIming">
+      <UniqueIdentifier>{3791871f-42bd-4113-93d2-6ba2b0ba3f64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{149f7be2-fc98-4e6a-97a4-d3b177c68c58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{e2b5ffd5-b1b4-441e-93b0-c72981fddee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{1780e33b-bccb-4663-b98e-b84cd6c07d42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{a2810e03-a1d5-4785-aae5-5eeee1d02e3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer">
+      <UniqueIdentifier>{22ef8d82-ffd9-4dcb-8186-6a40c0f62e04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Renderer">
+      <UniqueIdentifier>{11773a07-d076-4ad5-aae1-e188a54e331c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SmartPointer">
+      <UniqueIdentifier>{8bb6d6df-61dc-44dd-bc94-0756eeeb2167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SmartPointer">
+      <UniqueIdentifier>{fd46f6f4-d4f2-4a91-9786-96ea05a17c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\StringPool">
+      <UniqueIdentifier>{8a4d811c-9ac5-46ec-955f-1354a3d99a5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\StringPool">
+      <UniqueIdentifier>{5753eb70-5fc2-4f2d-b821-067c996226f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\String">
+      <UniqueIdentifier>{4cc9708c-8e1b-4ae5-beb9-7d6e8ab68dad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\String">
+      <UniqueIdentifier>{06404115-bbe8-4a3d-a976-60ba3769b2cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Threading">
+      <UniqueIdentifier>{fe05ae84-8e60-4f5c-a983-531c2781de74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Threading">
+      <UniqueIdentifier>{ea6513e0-7326-49f2-911b-b1c326074d23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\JobSystem">
+      <UniqueIdentifier>{32a53b1e-c8be-4f72-9e26-cbc611b4faad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\JobSystem">
+      <UniqueIdentifier>{8127067d-95aa-4ced-94da-9385ffc96c73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ProcessFile">
+      <UniqueIdentifier>{0a127c16-0b22-4def-b9fb-1a23306bbfa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ProcessFile">
+      <UniqueIdentifier>{36f07d2d-3dfe-452e-b5e0-35ee1b8eacd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Matrix">
+      <UniqueIdentifier>{f7942820-2739-4bdf-ade4-ea7b3d8d4e8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Matrix">
+      <UniqueIdentifier>{a200ea87-315d-464a-b49e-f2cf9d9e4f3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collision">
+      <UniqueIdentifier>{ca77b2f4-0142-4318-8706-d53442cefd19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Collision">
+      <UniqueIdentifier>{a961d4a6-5d6f-4575-b147-6286a6b2c6f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Messaging">
+      <UniqueIdentifier>{f0f193c3-4972-43fd-b979-bfb359d4d9a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Messaging">
+      <UniqueIdentifier>{915a7624-09e8-47e4-9efd-0b2a9d17f84c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Profiling">
+      <UniqueIdentifier>{5380e0d7-cc00-459e-a96e-9d68902de992}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Profiling">
+      <UniqueIdentifier>{f8e4d6ee-b00c-4662-8a0c-466ee8d0518c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -63,6 +153,126 @@
     <ClInclude Include="Maths.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
+    <ClInclude Include="BitArray.h">
+      <Filter>Header Files\FixedSizeAllocator</Filter>
+    </ClInclude>
+    <ClInclude Include="FixedSizeAllocator.h">
+      <Filter>Header Files\FixedSizeAllocator</Filter>
+    </ClInclude>
+    <ClInclude Include="FixedSizeAllocatorProxy.h">
+      <Filter>Header Files\FixedSizeAllocator</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TIming.h">
+      <Filter>Header Files\TIming</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="StrongPointer.h">
+      <Filter>Header Files\SmartPointer</Filter>
+    </ClInclude>
+    <ClInclude Include="WeakPointer.h">
+      <Filter>Header Files\SmartPointer</Filter>
+    </ClInclude>
+    <ClInclude Include="PooledString.h">
+      <Filter>Header Files\StringPool</Filter>
+    </ClInclude>
+    <ClInclude Include="StringPool.h">
+      <Filter>Header Files\StringPool</Filter>
+    </ClInclude>
+    <ClInclude Include="String_Functions.h">
+      <Filter>Header Files\String</Filter>
+    </ClInclude>
+    <ClInclude Include="ListObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Semaphore.h">
+      <Filter>Header Files\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="Mutex.h">
+      <Filter>Header Files\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitableObject.h">
+      <Filter>Header Files\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleWriterMultipleReader.h">
+      <Filter>Header Files\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.h">
+      <Filter>Header Files\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadedFileProcessor.h">
+      <Filter>Header Files\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="IJob.h">
+      <Filter>Header Files\JobSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="INamed.h">
+      <Filter>Header Files\JobSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="JobRunner.h">
+      <Filter>Header Files\JobSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedJobQueue.h">
+      <Filter>Header Files\JobSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedJobQueue-inl.h">
+      <Filter>Header Files\JobSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="HashedString.h">
+      <Filter>Header Files\StringPool</Filter>
+    </ClInclude>
+    <ClInclude Include="HashedString-inl.h">
+      <Filter>Header Files\Inline Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jobsystem.h">
+      <Filter>Header Files\JobSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="FileProcess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Header Files\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix-inl.h">
+      <Filter>Header Files\Inline Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector4-inl.h">
+      <Filter>Header Files\Inline Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3-inl.h">
+      <Filter>Header Files\Inline Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Messaging.h">
+      <Filter>Header Files\Messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="Profiler.h">
+      <Filter>Header Files\Profiling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Point2.cpp">
@@ -76,6 +286,102 @@
     </ClCompile>
     <ClCompile Include="Maths.cpp">
       <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="BitArray.cpp">
+      <Filter>Source Files\FixedSizeAllocator</Filter>
+    </ClCompile>
+    <ClCompile Include="FixedSizeAllocator.cpp">
+      <Filter>Source Files\FixedSizeAllocator</Filter>
+    </ClCompile>
+    <ClCompile Include="FixedSizeAllocatorProxy.cpp">
+      <Filter>Source Files\FixedSizeAllocator</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TIming.cpp">
+      <Filter>Source Files\TIming</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="StrongPointer.cpp">
+      <Filter>Source Files\SmartPointer</Filter>
+    </ClCompile>
+    <ClCompile Include="WeakPointer.cpp">
+      <Filter>Source Files\SmartPointer</Filter>
+    </ClCompile>
+    <ClCompile Include="PooledString.cpp">
+      <Filter>Source Files\StringPool</Filter>
+    </ClCompile>
+    <ClCompile Include="StringPool.cpp">
+      <Filter>Source Files\StringPool</Filter>
+    </ClCompile>
+    <ClCompile Include="String_Functions.cpp">
+      <Filter>Source Files\String</Filter>
+    </ClCompile>
+    <ClCompile Include="ListObjects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Semaphore.cpp">
+      <Filter>Source Files\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="Mutex.cpp">
+      <Filter>Source Files\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="Events.cpp">
+      <Filter>Source Files\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadedFileProcessor.cpp">
+      <Filter>Source Files\Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="IJob.cpp">
+      <Filter>Source Files\JobSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="JobRunner.cpp">
+      <Filter>Source Files\JobSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="JobSystem.cpp">
+      <Filter>Source Files\JobSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedJobQueue.cpp">
+      <Filter>Source Files\JobSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="HashedString.cpp">
+      <Filter>Source Files\StringPool</Filter>
+    </ClCompile>
+    <ClCompile Include="FileProcess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector4.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix.cpp">
+      <Filter>Source Files\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixSSE.cpp">
+      <Filter>Source Files\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Messaging.cpp">
+      <Filter>Source Files\Messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="Profiler.cpp">
+      <Filter>Source Files\Profiling</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

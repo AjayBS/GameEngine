@@ -1,0 +1,18 @@
+﻿  main.cpp
+  Game.cpp
+  Generating Code...
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/PROFILE' specification
+Game.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:REF' specification
+GLib_x86-Debug.lib(DrawResourcesBuffer.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x86-Debug.lib(DrawResourcesBuffer.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\Debug\GLib.pdb'; linking object as if no debug info
+GLib_x86-Debug.lib(ConsolePrint.Win32.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x86-Debug.lib(ConsolePrint.Win32.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\Debug\GLib.pdb'; linking object as if no debug info
+GLib_x86-Debug.lib(DDSTextureLoader.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x86-Debug.lib(DDSTextureLoader.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\Debug\GLib.pdb'; linking object as if no debug info
+GLib_x86-Debug.lib(Texture.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x86-Debug.lib(Texture.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\Debug\GLib.pdb'; linking object as if no debug info
+GLib_x86-Debug.lib(SpriteRender.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x86-Debug.lib(SpriteRender.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\Debug\GLib.pdb'; linking object as if no debug info
+GLib_x86-Debug.lib(Device.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x86-Debug.lib(Device.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\Debug\GLib.pdb'; linking object as if no debug info
+GLib_x86-Debug.lib(Initialization.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x86-Debug.lib(Initialization.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\Debug\GLib.pdb'; linking object as if no debug info
+GLib_x86-Debug.lib(Input.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x86-Debug.lib(Input.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\Debug\GLib.pdb'; linking object as if no debug info
+GLib_x86-Debug.lib(Render.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x86-Debug.lib(Render.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\Debug\GLib.pdb'; linking object as if no debug info
+GLib_x86-Debug.lib(Service.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x86-Debug.lib(Service.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\Debug\GLib.pdb'; linking object as if no debug info
+GLib_x86-Debug.lib(Window.obj) : warning LNK4099: PDB 'GLib.pdb' was not found with 'GLib_x86-Debug.lib(Window.obj)' or at 'C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\Debug\GLib.pdb'; linking object as if no debug info
+  MonsterChase.vcxproj -> C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\Debug\GraphicsApplication.exe
+  MonsterChase.vcxproj -> C:\Users\Ajay Sathish\Documents\Game Engineering\u1068959\u1068959\MonsterChase\Debug\GraphicsApplication.pdb (Partial PDB)

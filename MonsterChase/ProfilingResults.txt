@@ -1,0 +1,9 @@
+I ran the test game for 30 seconds and these are the results that I came up with:
+
+My profiler code
+With vectorized vector and matrix classes ---- 21.47 ms
+Without vectorized vector and matrix classes ----26.982840 ms
+
+Visual Studios Profiler
+With vectorized vector and matrix classes ---- 14.31320 ms
+Without vectorized vector and matrix classes ----20.95603 ms

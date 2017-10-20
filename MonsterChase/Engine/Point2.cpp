@@ -1,7 +1,6 @@
 #include "Point2.h"
 #include "Macros.h"
 #include "Maths.h"
-namespace Engine {
 	/*static variables*/
 	Point2 Point2::zero = Point2(0, 0);
 	Point2 Point2::right = Point2(1, 0);
@@ -88,6 +87,15 @@ namespace Engine {
 		return mul;
 	}
 
+	Point2 Point2::operator/(const float f) const
+	{
+		assert(IsNAN(f));
+		Point2 mul;
+		mul.mX = mX / f;
+		mul.mY = mY / f;
+		return mul;
+	}
+
 	/*multiplication of vectors (*= operator)*/
 	Point2& Point2::operator*=(const float f) {
 		assert(IsNAN(f));
@@ -104,4 +112,3 @@ namespace Engine {
 	}
 
 	Point2::~Point2() {}
-}

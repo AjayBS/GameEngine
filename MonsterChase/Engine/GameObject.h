@@ -1,16 +1,16 @@
 #pragma once
 #include "Point2.h"
+#include "Vector3.h"
 #include<algorithm>
-#include<string.h>
 class GameObject
 {
 public:
-	GameObject(char *i_pName, const Point2 & i_InitialPosition) :
+	GameObject(char *i_pName, const Vector3 & i_InitialPosition) :
 		m_Name(i_pName),
 		m_Position(i_InitialPosition)
 	{
 	}
-	GameObject(const Point2 & i_InitialPosition) :
+	GameObject(const Vector3 & i_InitialPosition) :
 		m_Name("Default"),
 		m_Position(i_InitialPosition)
 	{
@@ -18,13 +18,13 @@ public:
 
 	GameObject() :
 		m_Name("Default"),
-		m_Position(Point2(0, 0))
+		m_Position(Vector3(0, 0, 0))
 	{
 
 	}
 	// copy constructor
 	GameObject(const GameObject & i_other) :
-		m_Name(_strdup(i_other.m_Name ? i_other.m_Name : "Default")),
+		m_Name((i_other.m_Name ? i_other.m_Name : "Default")),
 		m_Position(i_other.m_Position)
 	{   }
 
@@ -33,7 +33,7 @@ public:
 		// if we have an existing name release it.
 		if (m_Name)
 			delete m_Name;
-		m_Name = _strdup(i_other.m_Name ? i_other.m_Name : "Default");
+		m_Name = (i_other.m_Name ? i_other.m_Name : "Default");
 		m_Position = i_other.m_Position;
 		return *this;
 	}
@@ -55,8 +55,14 @@ public:
 	}
 
 	// Get / Set our current position
-	Point2 GetPosition() const { return m_Position; }
-	void SetPosition(Point2 & i_Position) { m_Position = i_Position; }
+	Vector3 GetPosition() const { return m_Position; }
+	void SetPosition(Vector3 & i_Position) { m_Position = i_Position; }
+
+	Vector3 GetVelocity() const { return m_Velocity; }
+	void SetVelocity(Vector3 & i_Velocity) { m_Velocity = i_Velocity; }
+	Vector3 GetRotation() const { return m_Rotation; }
+	void SetRotation(Vector3 & i_Rotation) { m_Rotation = i_Rotation; }
+
 	void SetName(char *name) {
 		int i = 0;
 		for (i = 0; i < name[i] != '\0'; i++) {
@@ -70,5 +76,8 @@ public:
 private:
 	char *m_Name;
 	char o_name[100];
-	Point2	m_Position;
+	Vector3	m_Position;
+	Vector3 m_Velocity;
+	Vector3 m_Rotation;
+	
 };

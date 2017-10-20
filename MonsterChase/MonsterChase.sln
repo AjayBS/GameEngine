@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MonsterChase", "MonsterChase\MonsterChase.vcxproj", "{2D1396E1-7F92-41B7-8646-E71729E7C9C5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsApplication", "MonsterChase\MonsterChase.vcxproj", "{2D1396E1-7F92-41B7-8646-E71729E7C9C5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6F9CC28A-C283-4393-A3B6-198BBF39A942} = {6F9CC28A-C283-4393-A3B6-198BBF39A942}
 	EndProjectSection
@@ -14,6 +14,8 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Profile|x64 = Profile|x64
+		Profile|x86 = Profile|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
@@ -22,6 +24,10 @@ Global
 		{2D1396E1-7F92-41B7-8646-E71729E7C9C5}.Debug|x64.Build.0 = Debug|x64
 		{2D1396E1-7F92-41B7-8646-E71729E7C9C5}.Debug|x86.ActiveCfg = Debug|Win32
 		{2D1396E1-7F92-41B7-8646-E71729E7C9C5}.Debug|x86.Build.0 = Debug|Win32
+		{2D1396E1-7F92-41B7-8646-E71729E7C9C5}.Profile|x64.ActiveCfg = Profile|x64
+		{2D1396E1-7F92-41B7-8646-E71729E7C9C5}.Profile|x64.Build.0 = Profile|x64
+		{2D1396E1-7F92-41B7-8646-E71729E7C9C5}.Profile|x86.ActiveCfg = Profile|Win32
+		{2D1396E1-7F92-41B7-8646-E71729E7C9C5}.Profile|x86.Build.0 = Profile|Win32
 		{2D1396E1-7F92-41B7-8646-E71729E7C9C5}.Release|x64.ActiveCfg = Release|x64
 		{2D1396E1-7F92-41B7-8646-E71729E7C9C5}.Release|x64.Build.0 = Release|x64
 		{2D1396E1-7F92-41B7-8646-E71729E7C9C5}.Release|x86.ActiveCfg = Release|Win32
@@ -30,6 +36,10 @@ Global
 		{6F9CC28A-C283-4393-A3B6-198BBF39A942}.Debug|x64.Build.0 = Debug|x64
 		{6F9CC28A-C283-4393-A3B6-198BBF39A942}.Debug|x86.ActiveCfg = Debug|Win32
 		{6F9CC28A-C283-4393-A3B6-198BBF39A942}.Debug|x86.Build.0 = Debug|Win32
+		{6F9CC28A-C283-4393-A3B6-198BBF39A942}.Profile|x64.ActiveCfg = Profile|x64
+		{6F9CC28A-C283-4393-A3B6-198BBF39A942}.Profile|x64.Build.0 = Profile|x64
+		{6F9CC28A-C283-4393-A3B6-198BBF39A942}.Profile|x86.ActiveCfg = Profile|Win32
+		{6F9CC28A-C283-4393-A3B6-198BBF39A942}.Profile|x86.Build.0 = Profile|Win32
 		{6F9CC28A-C283-4393-A3B6-198BBF39A942}.Release|x64.ActiveCfg = Release|x64
 		{6F9CC28A-C283-4393-A3B6-198BBF39A942}.Release|x64.Build.0 = Release|x64
 		{6F9CC28A-C283-4393-A3B6-198BBF39A942}.Release|x86.ActiveCfg = Release|Win32

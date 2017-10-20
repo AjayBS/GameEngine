@@ -1,8 +1,6 @@
 #pragma once
 #include<stdio.h>
 #include<math.h>
-namespace Engine {
-
 	class Point2 {
 
 	public:
@@ -15,6 +13,7 @@ namespace Engine {
 		Point2 operator+(const Point2& v) const;
 		Point2 operator-(const Point2& v) const;
 		Point2 operator*(const float f) const;
+		Point2 operator/(const float f) const;
 		Point2& operator+=(const Point2& v);
 		Point2& operator-=(const Point2& v);
 		Point2& operator*=(const float f);
@@ -44,6 +43,5 @@ namespace Engine {
 		float mY;
 	};
 
-}
 
 #include "Point2-inl.h"

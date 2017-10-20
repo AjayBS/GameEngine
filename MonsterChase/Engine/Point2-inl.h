@@ -1,6 +1,5 @@
 #pragma once
 /*print the vector*/
-using namespace Engine;
 
 inline void Point2::print() {
 	printf("< %f, %f >", GetPositionX(), GetPositionY());
